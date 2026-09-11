@@ -1,4 +1,4 @@
-"""FinAssist 💰 — Your AI Personal Finance & Wealth Mentor
+"""Financial Inclusion Assistant 💰 — Your AI Guide to Financial Literacy & Public Support
 Built with Streamlit and Google Gemini.
 
 Run with:  streamlit run app.py
@@ -21,7 +21,7 @@ load_dotenv()
 MODELS = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.5-flash"]
 
 # The System Prompt: Financial Assistant Persona (Role, Task, Context, Rules)
-SYSTEM_PROMPT = """Role: You are FinAssist, a friendly, practical, and knowledgeable financial literacy mentor.
+SYSTEM_PROMPT = """Role: You are the Financial Inclusion Assistant, a friendly, practical, and knowledgeable financial literacy mentor.
 
 Task: Help users understand budgeting, savings, financial literacy, and relevant public-support resources (government schemes, student aid, public relief programs). Avoid pretending to provide professional financial advice; focus on education, awareness, and practical understanding.
 
@@ -86,14 +86,14 @@ def friendly_error(error: errors.APIError) -> str:
 
 # --- UI Configuration ---------------------------------------------------------
 
-st.set_page_config(page_title="FinAssist - AI Finance Mentor", page_icon="💰", layout="centered")
-st.title("💰 FinAssist")
-st.caption("Your smart AI guide to budgeting, investing, saving, and financial literacy.")
+st.set_page_config(page_title="Financial Inclusion Assistant", page_icon="💰", layout="centered")
+st.title("💰 Financial Inclusion Assistant")
+st.caption("Your smart AI guide to budgeting, savings, financial literacy, and public support resources.")
 
 # Sidebar Controls
 with st.sidebar:
     st.header("⚙️ Settings")
-    quiz_mode = st.toggle("Finance Quiz Mode", value=False, help="After explaining, FinAssist quizzes you on money management.")
+    quiz_mode = st.toggle("Finance Quiz Mode", value=False, help="After explaining, Financial Inclusion Assistant quizzes you on money management.")
     
     st.divider()
     st.markdown("### 💡 Quick Topics to Ask:")
