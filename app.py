@@ -128,14 +128,33 @@ def friendly_error(error: errors.APIError) -> str:
 
 # --- UI Configuration ---------------------------------------------------------
 
-st.set_page_config(page_title="Financial Inclusion Assistant", page_icon="💰", layout="centered")
+# Check for custom logo image
+logo_candidates = ["logo.png", "logo.jpg", "logo.jpeg", "logo.webp"]
+custom_logo = next((img for img in logo_candidates if os.path.exists(img)), None)
+
+st.set_page_config(
+    page_title="Financial Inclusion Assistant",
+    page_icon=custom_logo if custom_logo else "💰",
+    layout="centered",
+)
 set_custom_background()
 
-st.title("💰 Financial Inclusion Assistant")
+# Title and Logo Header
+if custom_logo:
+    col1, col2 = st.columns([1, 5], vertical_alignment="center")
+    with col1:
+        st.image(custom_logo, width=70)
+    with col2:
+        st.title("Financial Inclusion Assistant")
+else:
+    st.title("💰 Financial Inclusion Assistant")
+
 st.caption("Your smart AI guide to budgeting, savings, financial literacy, and public support resources.")
 
 # Sidebar Controls
 with st.sidebar:
+    if custom_logo:
+        st.image(custom_logo, use_container_width=True)
     st.header("⚙️ Settings")
     quiz_mode = st.toggle("Finance Quiz Mode", value=False, help="After explaining, Financial Inclusion Assistant quizzes you on money management.")
     
