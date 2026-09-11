@@ -4,6 +4,7 @@ Built with Streamlit and Google Gemini.
 Run with:  streamlit run app.py
 """
 
+import base64
 import logging
 import os
 
@@ -16,6 +17,47 @@ from google.genai import errors, types
 logging.getLogger("google_genai.models").setLevel(logging.ERROR)
 
 load_dotenv()
+
+
+def set_custom_background():
+    """Apply a custom 4K background image if present, styled with glassmorphism."""
+    # Look for common image formats in the project directory
+    image_candidates = ["background.jpg", "background.png", "background.jpeg", "background.webp"]
+    found_image = next((img for img in image_candidates if os.path.exists(img)), None)
+
+    if found_image:
+        with open(found_image, "rb") as image_file:
+            encoded_string = base64.b64encode(image_file.read()).decode()
+
+        css = f"""
+        <style>
+        .stApp {{
+            background: linear-gradient(rgba(10, 15, 25, 0.82), rgba(10, 15, 25, 0.88)), 
+                        url("data:image/png;base64,{encoded_string}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }}
+        [data-testid="stSidebar"] {{
+            background: rgba(15, 23, 42, 0.78) !important;
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }}
+        .stChatMessage {{
+            background: rgba(255, 255, 255, 0.06) !important;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }}
+        .stChatInputContainer {{
+            backdrop-filter: blur(8px);
+        }}
+        </style>
+        """
+        st.markdown(css, unsafe_allow_html=True)
 
 # Model fallback list to handle rate limits gracefully
 MODELS = ["gemini-3.6-flash", "gemini-3.5-flash-lite", "gemini-3.5-flash"]
@@ -87,6 +129,8 @@ def friendly_error(error: errors.APIError) -> str:
 # --- UI Configuration ---------------------------------------------------------
 
 st.set_page_config(page_title="Financial Inclusion Assistant", page_icon="💰", layout="centered")
+set_custom_background()
+
 st.title("💰 Financial Inclusion Assistant")
 st.caption("Your smart AI guide to budgeting, savings, financial literacy, and public support resources.")
 
